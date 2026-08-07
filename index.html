@@ -72,7 +72,7 @@
         const userInput = document.getElementById('user-input');
         
         const checklistDatabase = [
-{
+            {
                 title: "📋 Checklist Area Check-in",
                 trigger: "checkin",
                 keywords: ["checkin", "check-in"],
@@ -96,10 +96,13 @@
                         "<label class='checklist-item'><input type='checkbox'> Pastikan layar FIDS gate dalam kondisi baik</label>" +
                         "<label class='checklist-item'><input type='checkbox'> Pastikan ketersediaan notice DGR</label>" +
                         "<label class='checklist-item'><input type='checkbox'> Memastikan area gate kondusif & rapi</label>"
-            },
+            }
+        ];
 
         const sopDatabase = [
             {
+                title: "🔋 Panduan Powerbank",
+                trigger: "powerbank",
                 keywords: ["powerbank", "pb", "baterai"],
                 answer: "<b>1. Batasan Kapasitas (Wh) & Ketentuan:</b><ul>" +
                         "<li><b>Kapasitas < 100 Wh (≤ 20.000 mAh):</b> Bebas dibawa ke kabin.</li>" +
@@ -116,6 +119,8 @@
                         "<li><b>Wajib Cabut Kabel:</b> Lepas semua kabel dari powerbank untuk mencegah korsleting.</li></ul>"
             },
             {
+                title: "🕒 Aturan Penanganan Delay",
+                trigger: "delay",
                 keywords: ["delay", "terlambat", "kompensasi"],
                 answer: "<b>ATURAN PENANGANAN DELAY (PM 89/2015):</b><br><br>" +
                         "<b>1. Kompensasi Berdasarkan Durasi Delay:</b><ul>" +
@@ -135,6 +140,11 @@
                         "<li>Maskapai bebas dari kewajiban ganti rugi hanya jika bisa membuktikan delay disebabkan faktor cuaca buruk atau masalah teknis operasional bandara.</li></ul>"
             }
         ];
+
+        const circularDatabase = [
+            { title: "SE-01/2026: Standar Pelayanan Ground Handling", date: "01 Agustus 2026", desc: "Penyesuaian prosedur penanganan bagasi check-in.", link: "https://drive.google.com" }
+        ];
+
         function addMessage(text) {
             const div = document.createElement('div');
             div.className = 'message-wrapper';
@@ -156,6 +166,12 @@
                 checklistDatabase.forEach(i => html += `<button class='smart-menu-btn' onclick="sendQuickReply('${i.trigger}')">${i.title}</button>`);
                 html += "</div>";
                 addMessage(html);
+            } else if(text === 'Circular') {
+                let response = "<b>📢 SURAT EDARAN RESMI AKTIF:</b><br><br>";
+                circularDatabase.forEach(c => { 
+                    response += `<div class="circular-card"><b>${c.title}</b><br><span style="font-size:11px; color:#64748b;">📅 ${c.date}</span><br>${c.desc}<br><a href="${c.link}" target="_blank" class="circular-btn">📄 Buka Berkas</a></div>`; 
+                });
+                addMessage(response);
             } else {
                 let found = [...checklistDatabase, ...sopDatabase].find(x => x.trigger === text || (x.keywords && x.keywords.includes(text)));
                 addMessage(found ? found.answer : renderMenu());
