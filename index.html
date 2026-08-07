@@ -72,9 +72,31 @@
         const userInput = document.getElementById('user-input');
         
         const checklistDatabase = [
-            { title: "📋 Checklist Area Check-in", trigger: "chk_checkin", answer: "<b>📋 AREA CHECK-IN:</b><br><label class='checklist-item'><input type='checkbox'> Editing flight (H-48 Jam)</label><label class='checklist-item'><input type='checkbox'> Briefing</label><label class='checklist-item'><input type='checkbox'> Cek Perlengkapan</label><label class='checklist-item'><input type='checkbox'> Cek Sistem</label><label class='checklist-item'><input type='checkbox'> Timbangan 0</label>" },
-            { title: "📋 Checklist Area Boarding Gate", trigger: "chk_gate", answer: "<b>📋 AREA BOARDING GATE:</b><br><label class='checklist-item'><input type='checkbox'> Persiapkan perlengkapan</label><label class='checklist-item'><input type='checkbox'> Alat Remote Parking</label><label class='checklist-item'><input type='checkbox'> Sistem (Komputer & Scanner)</label><label class='checklist-item'><input type='checkbox'> Layar FIDS</label><label class='checklist-item'><input type='checkbox'> Area Gate Rapi</label>" }
-        ];
+{
+                title: "📋 Checklist Area Check-in",
+                trigger: "checkin",
+                keywords: ["checkin", "check-in"],
+                answer: "<b>📋 CHECKLIST PERSIAPAN AREA CHECK-IN:</b><br>" +
+                        "<label class='checklist-item'><input type='checkbox'> Editing flight (H-48 Jam): SPCL handling, Infant, Child, Group/Couple</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Mengikuti Briefing</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Cek perlengkapan (Label Fragile, Heavy, Bag tag, Priority, Transfer)</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Cek Form document, Sign DGR, & Security Question</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Mengecek System Counter Check-in</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Pastikan timbangan pada angka 0 (Zero calibration)</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Memastikan area konter bersih & rapi</label>"
+            },
+            {
+                title: "📋 Checklist Area Boarding Gate",
+                trigger: "gate",
+                keywords: ["gate", "boarding"],
+                answer: "<b>📋 CHECKLIST PERSIAPAN AREA BOARDING GATE:</b><br>" +
+                        "<label class='checklist-item'><input type='checkbox'> Persiapkan perlengkapan: Sign Board, WCHR, HT, Hand Count, Form, & BTU</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Alat Remote Parking: Jas Hujan, Payung, & Transportasi</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Pastikan sistem (Komputer & Scanner) berjalan normal</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Pastikan layar FIDS gate dalam kondisi baik</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Pastikan ketersediaan notice DGR</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Memastikan area gate kondusif & rapi</label>"
+            },
 
         const sopDatabase = [
             {
