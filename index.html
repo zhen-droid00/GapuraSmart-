@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Gapura Smart - Portal Resmi</title>
     
+    <!-- PWA / OFFLINE MODE SETUP -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://i.ibb.co.com/4ZgWC66s/logogapura.png">
+    <link rel="icon" type="image/png" href="https://i.ibb.co.com/4ZgWC66s/logogapura.png">
+    
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,19 +18,49 @@
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background: #ffffff; 
+            background: #e2e8f0; 
             display: flex; justify-content: center; align-items: center; 
-            height: 100vh; width: 100vw; overflow: hidden;
+            min-height: 100vh; width: 100vw; overflow: hidden;
+            padding: 20px;
+            transition: background 0.3s;
         }
+        
+        /* --- SPLASH SCREEN ANIMATION --- */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #0f3c2a; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s;
+        }
+        .splash-logo {
+            width: 80px; height: 80px; background: white; border-radius: 20px; padding: 10px;
+            animation: pulse 1.5s infinite;
+        }
+        .splash-text {
+            color: white; margin-top: 15px; font-size: 20px; font-weight: 700; letter-spacing: 1px;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
         .chat-container {
-            width: 100%; height: 100%;
-            max-width: none; max-height: none;
-            background: #ffffff; border-radius: 0; 
-            box-shadow: none; border: none;
-            display: flex; flex-direction: column; overflow: hidden;
+            width: 100%; max-width: 480px; height: 90vh; max-height: 820px;
+            background: #ffffff; border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); border: 1px solid #cbd5e1;
+            display: flex; flex-direction: column; overflow: hidden; position: relative;
+            transition: all 0.3s;
         }
+
+        @media (max-width: 600px) {
+            body { padding: 0; }
+            .chat-container { max-width: 100%; height: 100vh; max-height: none; border-radius: 0; border: none; }
+        }
+
         .chat-header {
             background: #0f3c2a; color: #ffffff; padding: 14px 20px;
             display: flex; justify-content: space-between; align-items: center;
@@ -35,83 +70,74 @@
         .header-brand h3 { font-size: 16px; font-weight: 700; line-height: 1.2; }
         .header-brand p { font-size: 11px; color: #94a3b8; font-weight: 500; }
         .header-logo { width: 38px; height: 38px; object-fit: contain; background-color: #ffffff; border-radius: 12px; padding: 4px; }
-        .status {
-            font-size: 11px; color: #10b981; font-weight: 600;
-            display: flex; align-items: center; gap: 5px;
-            background: rgba(255, 255, 255, 0.1); padding: 5px 10px; border-radius: 20px;
+        
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        
+        /* TOMBOL DARK MODE */
+        .theme-toggle {
+            background: rgba(255,255,255,0.2); border: none; color: white;
+            width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; transition: 0.2s;
         }
-        .status::before { content: ''; width: 6px; height: 6px; background: #10b981; border-radius: 50%; display: inline-block; }
-        .chat-box { 
-            flex: 1; padding: 20px 16px; overflow-y: auto; 
-            display: flex; flex-direction: column; gap: 16px; background: #f8fafc; position: relative;
-        }
-        .message-wrapper { display: flex; flex-direction: column; z-index: 1; max-width: 85%; }
+        .theme-toggle:hover { background: rgba(255,255,255,0.3); }
+
+        .chat-box { flex: 1; padding: 20px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: #f8fafc; transition: 0.3s; }
+        
+        .message-wrapper { display: flex; flex-direction: column; z-index: 1; max-width: 88%; }
         .wrapper-user { align-self: flex-end; align-items: flex-end; }
         .wrapper-ai { align-self: flex-start; align-items: flex-start; }
-        .message { padding: 12px 16px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+        .message { padding: 12px 16px; font-size: 13.5px; line-height: 1.5; word-wrap: break-word; }
         .user-msg { background: #0f3c2a; color: #ffffff; border-radius: 18px 18px 4px 18px; box-shadow: 0 2px 5px rgba(15, 60, 42, 0.2); }
-        .ai-msg { background: #ffffff; color: #334155; border: 1px solid #e2e8f0; border-radius: 18px 18px 18px 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .ai-msg { background: #ffffff; color: #334155; border: 1px solid #e2e8f0; border-radius: 18px 18px 18px 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: 0.3s; }
         .msg-time { font-size: 10px; color: #94a3b8; margin-top: 4px; font-weight: 500; }
         
-        .circular-card {
-            background: #ffffff; border-left: 4px solid #0f3c2a; padding: 12px 14px;
-            margin-top: 8px; margin-bottom: 8px; border-radius: 6px; font-size: 13.5px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; border-left-width: 4px;
-        }
-        .circular-btn {
-            display: inline-block; margin-top: 8px; background: #0f3c2a; color: #ffffff;
-            padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;
-            text-decoration: none; transition: background 0.2s;
-        }
-        .circular-btn:hover { background: #16563d; }
-
-        .quick-replies { display: flex; flex-wrap: wrap; gap: 8px; margin-top: -6px; z-index: 1; }
-        .chip {
-            background: #ffffff; border: 1px solid #cbd5e1; color: #475569;
-            padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;
-        }
+        .circular-card { background: #ffffff; border-left: 4px solid #0f3c2a; padding: 12px 14px; margin-top: 8px; margin-bottom: 8px; border-radius: 6px; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; border-left-width: 4px; transition: 0.3s;}
+        .circular-btn { display: inline-block; margin-top: 8px; background: #0f3c2a; color: #ffffff; padding: 7px 14px; border-radius: 6px; font-size: 11.5px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+        
+        .quick-replies { display: flex; flex-wrap: wrap; gap: 8px; margin-top: -4px; z-index: 1; }
+        .chip { background: #ffffff; border: 1px solid #cbd5e1; color: #475569; padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
         .chip:hover { background: #f1f5f9; border-color: #94a3b8; color: #0f3c2a; }
 
-        .input-area { 
-            display: flex; padding: 12px 16px; background: #ffffff; 
-            border-top: 1px solid #e2e8f0; gap: 8px; align-items: center; z-index: 2; 
-        }
+        .input-area { display: flex; padding: 12px 14px; background: #ffffff; border-top: 1px solid #e2e8f0; gap: 8px; align-items: center; z-index: 2; transition: 0.3s; }
         
-        #circular-btn-bot {
-            background: #f1f5f9; color: #0f3c2a; border: 1px solid #cbd5e1;
-            height: 44px; padding: 0 14px; border-radius: 22px; font-size: 12.5px; 
-            font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px;
-            transition: all 0.2s; flex-shrink: 0; font-family: inherit;
-        }
-        #circular-btn-bot:hover { background: #e2e8f0; border-color: #94a3b8; }
-
-        #user-input { 
-            flex: 1; padding: 14px 16px; background: #f8fafc; border: 1px solid #e2e8f0; 
-            border-radius: 24px; outline: none; font-size: 14px; font-family: inherit; color: #1e293b; 
-        }
+        #circular-btn-bot { background: #f1f5f9; color: #0f3c2a; border: 1px solid #cbd5e1; height: 42px; padding: 0 12px; border-radius: 21px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s; flex-shrink: 0; font-family: inherit; }
+        
+        #user-input { flex: 1; padding: 12px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 24px; outline: none; font-size: 13.5px; font-family: inherit; color: #1e293b; transition: 0.3s; }
         #user-input:focus { border-color: #0f3c2a; background: #ffffff; box-shadow: 0 0 0 3px rgba(15, 60, 42, 0.1); }
         
-        #send-btn { 
-            background: #0f3c2a; color: white; border: none; width: 44px; height: 44px; 
-            border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; flex-shrink: 0; 
-        }
-        #send-btn:hover { background: #16563d; }
+        /* TOMBOL MIC & SEND */
+        .action-btn { background: #0f3c2a; color: white; border: none; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; flex-shrink: 0; transition: 0.2s; }
+        .action-btn:hover { background: #16563d; }
+        #mic-btn { background: #f1f5f9; color: #0f3c2a; border: 1px solid #cbd5e1; }
+        #mic-btn.recording { background: #ef4444; color: white; border-color: #ef4444; animation: pulse 1.5s infinite; }
 
-        .typing-indicator {
-            display: flex; gap: 4px; padding: 14px 18px; background: #ffffff;
-            border: 1px solid #e2e8f0; border-radius: 18px 18px 18px 4px; width: fit-content;
-        }
-        .typing-indicator span {
-            width: 6px; height: 6px; background-color: #94a3b8; border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out both;
-        }
+        .typing-indicator { display: flex; gap: 4px; padding: 12px 16px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px 18px 18px 4px; width: fit-content; transition: 0.3s; }
+        .typing-indicator span { width: 6px; height: 6px; background-color: #94a3b8; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-        .ai-msg b { color: #0f172a; }
-        ul { padding-left: 18px; margin-top: 6px; }
-        li { margin-bottom: 4px; }
+        
+        /* --- DARK MODE STYLES --- */
+        body.dark-mode { background: #0f172a; }
+        body.dark-mode .chat-container { background: #1e293b; border-color: #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        body.dark-mode .chat-box { background: #0f172a; }
+        body.dark-mode .ai-msg { background: #1e293b; color: #f8fafc; border-color: #334155; }
+        body.dark-mode .ai-msg b { color: #f1f5f9; }
+        body.dark-mode .input-area { background: #1e293b; border-color: #334155; }
+        body.dark-mode #user-input { background: #0f172a; color: #f8fafc; border-color: #334155; }
+        body.dark-mode #user-input:focus { background: #1e293b; border-color: #10b981; }
+        body.dark-mode .chip { background: #1e293b; color: #cbd5e1; border-color: #334155; }
+        body.dark-mode .circular-card { background: #0f172a; color: #f8fafc; border-color: #334155; border-left-color: #10b981; }
+        body.dark-mode .typing-indicator { background: #1e293b; border-color: #334155; }
+        body.dark-mode #circular-btn-bot { background: #334155; color: #f8fafc; border-color: #475569; }
+        body.dark-mode #mic-btn:not(.recording) { background: #334155; color: #f8fafc; border-color: #475569; }
     </style>
 </head>
 <body>
+
+    <!-- LAYAR SPLASH -->
+    <div id="splash-screen">
+        <img src="https://i.ibb.co.com/4ZgWC66s/logogapura.png" alt="Logo" class="splash-logo">
+        <div class="splash-text">GAPURA SMART</div>
+    </div>
 
     <div class="chat-container">
         <div class="chat-header">
@@ -119,32 +145,39 @@
                 <img src="https://i.ibb.co.com/4ZgWC66s/logogapura.png" alt="Logo" class="header-logo" onerror="this.style.display='none'">
                 <div>
                     <h3>Gapura Smart</h3>
-                    <p>Circular & SOP System</p>
+                    <p>Operational Assistant</p>
                 </div>
             </div>
-            <span class="status">Active</span>
+            <div class="header-actions">
+                <button class="theme-toggle" id="theme-btn">🌙</button>
+            </div>
         </div>
         
         <div class="chat-box" id="chat-box">
             <div class="message-wrapper wrapper-ai">
                 <div class="message ai-msg">
-                    Halo GAPURA WARRIORS! 👋<br><br>Silakan ketik pertanyaan seputar SOP, atau klik tombol <b>📢 Circular</b> di bawah untuk melihat surat edaran resmi.
+                    Halo GAPURA WARRIORS! 👋<br><br>Ketik / ucapkan kendala operasional Anda, atau klik <b>📢 Circular</b> untuk surat edaran terbaru.
                 </div>
                 <div class="msg-time" id="welcome-time"></div>
             </div>
             
             <div class="quick-replies" id="quick-replies">
+                <div class="chip" onclick="sendQuickReply('Timeline Cut off')">⏱️ Cut off Time</div>
                 <div class="chip" onclick="sendQuickReply('Aturan Delay')">Aturan Delay</div>
                 <div class="chip" onclick="sendQuickReply('Regulasi Powerbank')">Regulasi Powerbank</div>
             </div>
         </div>
         
         <div class="input-area">
-            <button id="circular-btn-bot" onclick="sendQuickReply('Circular')">
-                📢 Circular
+            <button id="circular-btn-bot" onclick="sendQuickReply('Circular')">📢</button>
+            
+            <!-- TOMBOL VOICE COMMAND -->
+            <button class="action-btn" id="mic-btn" title="Pencarian Suara">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
             </button>
-            <input type="text" id="user-input" placeholder="Ketik pertanyaan SOP..." autocomplete="off">
-            <button id="send-btn">
+
+            <input type="text" id="user-input" placeholder="Tanya SOP disini..." autocomplete="off">
+            <button class="action-btn" id="send-btn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="22" y1="2" x2="11" y2="13"></line>
                     <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -154,92 +187,87 @@
     </div>
 
     <script>
+        // HILANGKAN SPLASH SCREEN SETELAH 1.5 DETIK
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => { splash.style.visibility = 'hidden'; }, 500);
+            }, 1500);
+        });
+
+        // FITUR DARK MODE TOGGLE
+        const themeBtn = document.getElementById('theme-btn');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if(document.body.classList.contains('dark-mode')){
+                themeBtn.innerText = '☀️';
+            } else {
+                themeBtn.innerText = '🌙';
+            }
+        });
+
         document.getElementById('welcome-time').innerText = new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
 
         const chatBox = document.getElementById('chat-box');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
+        const micBtn = document.getElementById('mic-btn');
         const quickReplies = document.getElementById('quick-replies');
 
+        // DATABASE SOP DIPERBARUI
         const sopDatabase = [
+            {
+                keywords: ["cutoff", "cut off", "jadwal", "timeline"],
+                answer: "<b>⏱️ TIMELINE KRITIS TURNAROUND (STD):</b><br>" +
+                        "<ul>" +
+                        "<li><b>T-45 Mins:</b> Close Check-in Counter</li>" +
+                        "<li><b>T-30 Mins:</b> Start Boarding (Manifest Ready)</li>" +
+                        "<li><b>T-10 Mins:</b> Last Cargo & Baggage Loaded</li>" +
+                        "<li><b>T-05 Mins:</b> Cabin Door Closed & LIR Signed</li>" +
+                        "</ul>"
+            },
             {
                 keywords: ["powerbank", "pb", "baterai"],
                 answer: "<b>1. Batasan Kapasitas (Wh) & Ketentuan:</b><ul>" +
                         "<li><b>Kapasitas < 100 Wh (≤ 20.000 mAh):</b> Bebas dibawa ke kabin.</li>" +
                         "<li><b>Kapasitas 100 – 160 Wh (20.000 – 32.000 mAh):</b> Wajib lapor dan butuh izin maskapai.</li>" +
-                        "<li><b>Kapasitas > 160 Wh (> 32.000 mAh):</b> Dilarang keras dibawa.</li>" +
-                        "<li><b>Label Pudar / Hilang:</b> Otomatis disita petugas.</li></ul><br>" +
-                        "<b>2. Jumlah & Lokasi Penyimpanan:</b><ul>" +
-                        "<li><b>Maksimal Jumlah:</b> Hanya boleh membawa maksimal 2 unit per penumpang.</li>" +
-                        "<li><b>Wajib di Kabin:</b> Masuk tas jinjing/ransel, dilarang keras masuk bagasi check-in (kargo).</li>" +
-                        "<li><b>Posisi Aman:</b> Simpan di bawah kursi atau kantong kursi depan, jangan di loker bagasi atas.</li></ul><br>" +
-                        "<b>3. Aturan Selama Penerbangan:</b><ul>" +
-                        "<li><b>Dilarang Digunakan:</b> Dilarang mengecas HP atau perangkat lain selama penerbangan.</li>" +
-                        "<li><b>Dilarang Diecas:</b> Dilarang mengisi ulang daya powerbank di kursi pesawat.</li>" +
-                        "<li><b>Wajib Cabut Kabel:</b> Lepas semua kabel dari powerbank untuk mencegah korsleting.</li></ul>"
+                        "<li><b>Kapasitas > 160 Wh (> 32.000 mAh):</b> Dilarang keras.</li></ul>"
             },
             {
                 keywords: ["delay", "terlambat", "kompensasi"],
-                answer: "<b>ATURAN PENANGANAN DELAY (PM 89/2015):</b><br><br>" +
-                        "<b>1. Kompensasi Berdasarkan Durasi Delay:</b><ul>" +
-                        "<li><b>30 – 60 menit:</b> Dapat minuman ringan.</li>" +
-                        "<li><b>61 – 120 menit:</b> Dapat minuman + makanan ringan (snack).</li>" +
-                        "<li><b>121 – 180 menit:</b> Dapat minuman + makanan berat.</li>" +
-                        "<li><b>181 – 240 menit:</b> Dapat minuman + snack + makanan berat.</li>" +
-                        "<li><b>Lebih dari 240 menit (4 Jam):</b> Ganti rugi tunai Rp300.000 per orang.</li>" +
-                        "<li><b>Pembatalan Penerbangan:</b> Dialihkan ke penerbangan lain atau refund tiket 100%.</li></ul><br>" +
-                        "<b>2. Fasilitas & Hak Tambahan Penumpang:</b><ul>" +
-                        "<li><b>Hak Refund Sejak Awal:</b> Penumpang bisa meminta refund atau pindah maskapai jika delay sudah masuk kategori 61 menit ke atas.</li>" +
-                        "<li><b>Delay > 6 Jam:</b> Maskapai wajib menyediakan hotel/penginapan gratis beserta transportasi jemputan jika harus menginap.</li></ul><br>" +
-                        "<b>3. Ketentuan Pencairan Rp300.000:</b><ul>" +
-                        "<li><b>Metode Bayar:</b> Bisa berupa uang tunai, voucher yang dapat dicairkan, atau transfer bank.</li>" +
-                        "<li><b>Tenggat Waktu:</b> Wajib dibayarkan maskapai maksimal 3 x 24 jam sejak waktu delay.</li></ul><br>" +
-                        "<b>4. Pengecualian Tanggung Jawab:</b><ul>" +
-                        "<li>Maskapai bebas dari kewajiban ganti rugi hanya jika bisa membuktikan delay disebabkan faktor cuaca buruk atau masalah teknis operasional bandara.</li></ul>"
+                answer: "<b>ATURAN DELAY (PM 89/2015):</b><br><ul>" +
+                        "<li><b>30–60 mnt:</b> Minuman ringan.</li>" +
+                        "<li><b>61–120 mnt:</b> Snack + Minum.</li>" +
+                        "<li><b>121–180 mnt:</b> Makanan berat.</li>" +
+                        "<li><b>> 240 mnt:</b> Ganti rugi tunai Rp300.000/orang.</li></ul>"
+            },
+            {
+                keywords: ["offload", "btp", "penumpang batal"],
+                answer: "<b>🚨 SOP BAGGAGE OFFLOAD:</b><br>" +
+                        "1. Segera infokan Team Leader Ramp/Gate via HT.<br>" +
+                        "2. Batas pencarian bagasi maks <b>7 menit</b>.<br>" +
+                        "3. Jika gagal ditemukan, eskalasi ke Captain (PIC) untuk keputusan akhir."
             }
         ];
 
         const circularDatabase = [
-            {
-                title: "Peningkatan Standar Pelayanan Ground Handling",
-                desc: "Edaran resmi terkait penyesuaian prosedur penanganan bagasi dan pelayanan penumpang di area check-in & Boarding Gate",
-                link: "https://drive.google.com/drive/folders/1-YlewEQvT3BBQUhXrVx66fW_9vfVWJSg?usp=drive_link" 
-            }
+            { title: "SE-01/2026: Standar Pelayanan Ground Handling", date: "01 Agustus 2026", desc: "Penyesuaian prosedur penanganan bagasi check-in.", link: "#" }
         ];
 
-        const secretText = "<b>Daftar Direksi PT Gapura Angkasa:</b><br>" +
-                           "- Ichwan F. Agus – President & CEO<br>" +
-                           "- Capt. Ruli Wijaya – Director of Operation<br>" +
-                           "- A.A Made Hardika – Director of Human Capital<br>" +
-                           "- Daulat Musa – Director of Financial & Risk Management<br>" +
-                           "- Denny Perdana Wirawan – Director of Commercial";
-
-        function parseText(text) {
-            let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>'); 
-            formattedText = formattedText.replace(/\\n/g, '<br>').replace(/\n/g, '<br>'); 
-            return formattedText;
-        }
-
-        function getCurrentTime() {
-            return new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
-        }
+        function getCurrentTime() { return new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}); }
 
         function addMessage(text, sender) {
             const wrapperDiv = document.createElement('div');
             wrapperDiv.classList.add('message-wrapper', sender === 'user' ? 'wrapper-user' : 'wrapper-ai');
-
             const msgDiv = document.createElement('div');
             msgDiv.classList.add('message', sender === 'user' ? 'user-msg' : 'ai-msg');
             msgDiv.innerHTML = text;
-
             const timeDiv = document.createElement('div');
             timeDiv.classList.add('msg-time');
             timeDiv.innerText = getCurrentTime();
-
-            wrapperDiv.appendChild(msgDiv);
-            wrapperDiv.appendChild(timeDiv);
-            chatBox.appendChild(wrapperDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
+            wrapperDiv.appendChild(msgDiv); wrapperDiv.appendChild(timeDiv);
+            chatBox.appendChild(wrapperDiv); chatBox.scrollTop = chatBox.scrollHeight;
         }
 
         function showTypingIndicator() {
@@ -250,8 +278,7 @@
             typingDiv.classList.add('typing-indicator');
             for (let i = 0; i < 3; i++) typingDiv.appendChild(document.createElement('span'));
             wrapperDiv.appendChild(typingDiv);
-            chatBox.appendChild(wrapperDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
+            chatBox.appendChild(wrapperDiv); chatBox.scrollTop = chatBox.scrollHeight;
         }
 
         function removeTypingIndicator() {
@@ -259,31 +286,9 @@
             if (typingDiv) typingDiv.remove();
         }
 
-        function renderCirculars() {
-            if (circularDatabase.length === 0) {
-                return "<b>Belum ada Circular (Surat Edaran) aktif saat ini.</b>";
-            }
-            
-            let html = "<b>📢 SURAT EDARAN RESMI AKTIF:</b><br><br>";
-            for (let i = 0; i < circularDatabase.length; i++) {
-                let c = circularDatabase[i];
-                html += `<div class="circular-card">` +
-                        `<b>${c.title}</b><br>` +
-                        `<span style="font-size:11px; color:#64748b;">📅 ${c.date}</span><br>` +
-                        `${c.desc}<br>` +
-                        `<a href="${c.link}" target="_blank" class="circular-btn">📄 Buka Berkas GDrive</a>` +
-                        `</div>`;
-            }
-            return html;
-        }
-
         function processMessage(text) {
             if (text === '') return;
-            
-            if(quickReplies.style.display !== 'none') {
-                quickReplies.style.display = 'none';
-            }
-
+            if(quickReplies.style.display !== 'none') quickReplies.style.display = 'none';
             addMessage(text, 'user');
             userInput.value = '';
             showTypingIndicator();
@@ -294,34 +299,62 @@
                 const cleanText = text.toLowerCase().trim();
 
                 if (cleanText === "circular" || cleanText === "surat edaran") {
-                    response = renderCirculars();
-                } else if (cleanText === "!rahasia" || cleanText === "admin-login") {
-                    response = secretText;
+                    response = "<b>📢 SURAT EDARAN AKTIF:</b><br><br>";
+                    circularDatabase.forEach(c => {
+                        response += `<div class="circular-card"><b>${c.title}</b><br><span style="font-size:11px;">📅 ${c.date}</span><br>${c.desc}</div>`;
+                    });
                 } else {
                     let found = false;
                     for (let i = 0; i < sopDatabase.length; i++) {
-                        const item = sopDatabase[i];
-                        if (item.keywords.some(kw => cleanText.includes(kw))) {
-                            response = item.answer; 
-                            found = true;
-                            break;
+                        if (sopDatabase[i].keywords.some(kw => cleanText.includes(kw))) {
+                            response = sopDatabase[i].answer; found = true; break;
                         }
                     }
-                    if (!found) {
-                        response = "Maaf Warriors, kata kunci tidak ditemukan. Silakan klik tombol <b>📢 Circular</b> di bawah untuk melihat surat edaran.";
-                    }
+                    if (!found) response = "Maaf Warriors, SOP tidak ditemukan. Coba gunakan kata kunci lain seperti 'delay' atau 'powerbank'.";
                 }
-
                 addMessage(response, 'ai');
-            }, 300); 
+            }, 400); 
         }
 
         window.sendQuickReply = function(text) { processMessage(text); }
-
         sendBtn.addEventListener('click', () => processMessage(userInput.value.trim()));
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') processMessage(userInput.value.trim());
-        });
+        userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') processMessage(userInput.value.trim()); });
+
+        // FITUR VOICE COMMAND (PENCARIAN SUARA)
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'id-ID'; // Bahasa Indonesia
+            recognition.interimResults = false;
+
+            micBtn.addEventListener('click', () => {
+                micBtn.classList.add('recording');
+                userInput.placeholder = "Mendengarkan...";
+                recognition.start();
+            });
+
+            recognition.addEventListener('result', (e) => {
+                const transcript = e.results[0][0].transcript;
+                userInput.value = transcript;
+                processMessage(transcript);
+            });
+
+            recognition.addEventListener('end', () => {
+                micBtn.classList.remove('recording');
+                userInput.placeholder = "Tanya SOP disini...";
+            });
+        } else {
+            micBtn.style.display = 'none'; // Sembunyikan jika browser tidak support
+        }
+
+        // SERVICE WORKER REGISTRATION UNTUK OFFLINE PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(reg => {
+                    console.log('Mode Offline Siap!', reg);
+                }).catch(err => console.log('Gagal pasang offline mode', err));
+            });
+        }
     </script>
 </body>
 </html>
