@@ -214,7 +214,7 @@
         const quickReplies = document.getElementById('quick-replies');
 
         // DATABASE SOP
-        const sopDatabase = [
+   const sopDatabase = [
             {
                 title: "⏱️ Timeline Cut-off Penerbangan",
                 trigger: "cutoff",
@@ -222,32 +222,41 @@
                 answer: "<b>⏱️ TIMELINE KRITIS TURNAROUND (STD):</b><br><ul><li><b>T-45 Mins:</b> Close Check-in Counter</li><li><b>T-30 Mins:</b> Start Boarding (Manifest Ready)</li><li><b>T-10 Mins:</b> Last Cargo & Baggage Loaded</li><li><b>T-05 Mins:</b> Cabin Door Closed & LIR Signed</li></ul>"
             },
             {
+                title: "📋 Checklist Area Check-in",
+                trigger: "checkin",
+                keywords: ["checkin", "check-in"],
+                answer: "<b>📋 CHECKLIST PERSIAPAN AREA CHECK-IN:</b><br>" +
+                        "<label class='checklist-item'><input type='checkbox'> Editing flight (H-48 Jam): SPCL handling, Infant, Child, Group/Couple</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Mengikuti Briefing</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Cek perlengkapan (Label Fragile, Heavy, Bag tag, Priority, Transfer)</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Cek Form document, Sign DGR, & Security Question</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Mengecek System Counter Check-in</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Pastikan timbangan pada angka 0 (Zero calibration)</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Memastikan area konter bersih & rapi</label>"
+            },
+            {
+                title: "📋 Checklist Area Boarding Gate",
+                trigger: "gate",
+                keywords: ["gate", "boarding"],
+                answer: "<b>📋 CHECKLIST PERSIAPAN AREA BOARDING GATE:</b><br>" +
+                        "<label class='checklist-item'><input type='checkbox'> Persiapkan perlengkapan: Sign Board, WCHR, HT, Hand Count, Form, & BTU</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Alat Remote Parking: Jas Hujan, Payung, & Transportasi</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Pastikan sistem (Komputer & Scanner) berjalan normal</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Pastikan layar FIDS gate dalam kondisi baik</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Pastikan ketersediaan notice DGR</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Memastikan area gate kondusif & rapi</label>"
+            },
+            {
                 title: "🔋 Regulasi Kapasitas Powerbank",
                 trigger: "powerbank",
                 keywords: ["powerbank", "pb", "baterai"],
-                answer: "<b>1. Batasan Kapasitas (Wh) & Ketentuan:</b><ul><li><b>< 100 Wh (≤ 20.000 mAh):</b> Bebas dibawa ke kabin.</li><li><b>100 – 160 Wh:</b> Wajib lapor & butuh izin maskapai.</li><li><b>> 160 Wh (> 32.000 mAh):</b> Dilarang keras.</li></ul>"
+                answer: "<b>1. Batasan Kapasitas (Wh) & Ketentuan:</b><ul><li><b>< 100 Wh:</b> Bebas di kabin.</li><li><b>100 – 160 Wh:</b> Wajib lapor.</li><li><b>> 160 Wh:</b> Dilarang keras.</li></ul>"
             },
             {
                 title: "🕒 Aturan Kompensasi Delay",
                 trigger: "delay",
                 keywords: ["delay", "terlambat", "kompensasi"],
                 answer: "<b>ATURAN DELAY (PM 89/2015):</b><br><ul><li><b>30–60 mnt:</b> Minuman ringan.</li><li><b>61–120 mnt:</b> Snack + Minum.</li><li><b>121–180 mnt:</b> Makanan berat.</li><li><b>> 240 mnt:</b> Ganti rugi tunai Rp300.000/orang.</li></ul>"
-            },
-            {
-                title: "🧳 SOP Baggage Offload (BTP)",
-                trigger: "offload",
-                keywords: ["offload", "btp", "penumpang batal"],
-                answer: "<b>🚨 SOP BAGGAGE OFFLOAD:</b><br>1. Segera infokan Team Leader Ramp/Gate via HT.<br>2. Batas pencarian bagasi maks <b>7 menit</b>.<br>3. Jika gagal ditemukan, eskalasi ke Captain (PIC)."
-            },
-            {
-                title: "📋 Interactive Shift Checklist",
-                trigger: "checklist",
-                keywords: ["checklist", "persiapan", "tugas", "shift"],
-                answer: "<b>📋 CHECKLIST MANDIRI PERSIAPAN SHIFT:</b><br>Silakan centang tugas yang sudah diselesaikan:<br>" +
-                        "<label class='checklist-item'><input type='checkbox'> 1. Cek kelengkapan perangkat HT & Headset</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> 2. Koordinasi Briefing dengan Team Leader</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> 3. Pastikan sistem DCS & Gate Berfungsi</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> 4. Cek area Apron & GSE siap pakai</label>"
             }
         ];
 
