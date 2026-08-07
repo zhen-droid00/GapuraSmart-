@@ -108,11 +108,17 @@
             }
         }
 
-        document.getElementById('send-btn').addEventListener('click', () => {
-            let val = userInput.value.toLowerCase();
+        function handleSend() {
+            let val = userInput.value.toLowerCase().trim();
+            if(!val) return;
             if(val.includes('menu')) addMessage(renderMenu());
             else sendQuickReply(val);
             userInput.value = '';
+        }
+
+        document.getElementById('send-btn').addEventListener('click', handleSend);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
         });
     </script>
 </body>
