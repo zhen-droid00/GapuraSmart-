@@ -3,383 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gapura Smart - Portal Resmi</title>
+    <title>Gapura Smart</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="https://i.ibb.co.com/4ZgWC66s/logogapura.png">
     <link rel="icon" type="image/png" href="https://i.ibb.co.com/4ZgWC66s/logogapura.png">
     
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Gapura Smart">
     <meta name="theme-color" content="#0f3c2a"> 
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background: #e2e8f0; display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; width: 100vw; overflow: hidden; padding: 20px; transition: background 0.3s;
-        }
-        
-        #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #0f3c2a; z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.5s ease-out, visibility 0.5s;
-        }
-        .splash-logo { width: 80px; height: 80px; background: white; border-radius: 20px; padding: 10px; animation: pulse 1.5s infinite; }
-        .splash-text { color: white; margin-top: 15px; font-size: 20px; font-weight: 700; letter-spacing: 1px; }
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-        }
-
-        .chat-container {
-            width: 100%; max-width: 480px; height: 90vh; max-height: 820px; background: #ffffff; border-radius: 16px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15); border: 1px solid #cbd5e1;
-            display: flex; flex-direction: column; overflow: hidden; position: relative; transition: all 0.3s;
-        }
-
-        @media (max-width: 600px) {
-            body { padding: 0; }
-            .chat-container { max-width: 100%; height: 100vh; max-height: none; border-radius: 0; border: none; }
-        }
-
-        .chat-header {
-            background: #0f3c2a; color: #ffffff; padding: 14px 20px; display: flex; justify-content: space-between; 
-            align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 10;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #e2e8f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; overflow: hidden; }
+        .chat-container { width: 100%; max-width: 480px; height: 100vh; background: #ffffff; display: flex; flex-direction: column; overflow: hidden; }
+        .chat-header { background: #0f3c2a; color: #ffffff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
         .header-brand { display: flex; align-items: center; gap: 12px; }
-        .header-brand h3 { font-size: 16px; font-weight: 700; line-height: 1.2; }
-        .header-brand p { font-size: 11px; color: #94a3b8; font-weight: 500; }
-        .header-logo { width: 38px; height: 38px; object-fit: contain; background-color: #ffffff; border-radius: 12px; padding: 4px; }
+        .header-logo { width: 35px; height: 35px; background: white; border-radius: 8px; padding: 3px; }
+        .header-brand h3 { font-size: 15px; }
         
-        .header-actions { display: flex; gap: 8px; align-items: center; }
-        
-        /* TOMBOL MENU DI HEADER */
-        .header-menu-btn {
-            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white;
-            padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s;
-        }
-        .header-menu-btn:hover { background: rgba(255,255,255,0.25); }
-
-        .theme-toggle { background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
-        .theme-toggle:hover { background: rgba(255,255,255,0.3); }
-
-        .ticker-wrap {
-            background: #fef08a; width: 100%; overflow: hidden; height: 32px; line-height: 32px; 
-            padding-left: 16px; border-bottom: 1px solid #fde047; font-size: 11.5px; font-weight: 700; 
-            color: #854d0e; display: flex; align-items: center; flex-shrink: 0; z-index: 9;
-        }
-        .ticker-content { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 25s linear infinite; }
+        .ticker-wrap { background: #fef08a; width: 100%; height: 30px; line-height: 30px; padding-left: 15px; font-size: 11px; font-weight: 700; color: #854d0e; white-space: nowrap; overflow: hidden; }
+        .ticker-content { display: inline-block; animation: ticker 25s linear infinite; }
         @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
-        .chat-box { flex: 1; padding: 20px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: #f8fafc; transition: 0.3s; }
+        .chat-box { flex: 1; padding: 20px 16px; overflow-y: auto; background: #f8fafc; }
+        .message-wrapper { display: flex; flex-direction: column; margin-bottom: 16px; }
+        .ai-msg { background: #ffffff; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 18px 18px 18px 4px; font-size: 13.5px; color: #334155; }
         
-        .message-wrapper { display: flex; flex-direction: column; z-index: 1; max-width: 88%; }
-        .wrapper-user { align-self: flex-end; align-items: flex-end; }
-        .wrapper-ai { align-self: flex-start; align-items: flex-start; }
-        .message { padding: 12px 16px; font-size: 13.5px; line-height: 1.5; word-wrap: break-word; }
-        .user-msg { background: #0f3c2a; color: #ffffff; border-radius: 18px 18px 4px 18px; box-shadow: 0 2px 5px rgba(15, 60, 42, 0.2); }
-        .ai-msg { background: #ffffff; color: #334155; border: 1px solid #e2e8f0; border-radius: 18px 18px 18px 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: 0.3s; }
-        .msg-time { font-size: 10px; color: #94a3b8; margin-top: 4px; font-weight: 500; }
+        .smart-menu-grid { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+        .smart-menu-btn { background: #f1f5f9; border: 1px solid #e2e8f0; color: #0f3c2a; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 700; text-align: left; cursor: pointer; }
         
-        .smart-menu-grid { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
-        .smart-menu-btn {
-            background: rgba(15, 60, 42, 0.05); border: 1px solid rgba(15, 60, 42, 0.15); color: #0f3c2a;
-            padding: 10px 14px; border-radius: 10px; font-size: 12.5px; font-weight: 700; text-align: left;
-            cursor: pointer; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center;
-        }
-        .smart-menu-btn:hover { background: rgba(15, 60, 42, 0.1); border-color: rgba(15, 60, 42, 0.3); }
-        .smart-menu-btn::after { content: "→"; font-size: 14px; font-weight: bold; }
-
         .checklist-item { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
-        .checklist-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: #0f3c2a; cursor: pointer; }
-
-        .circular-card { background: #ffffff; border-left: 4px solid #0f3c2a; padding: 12px 14px; margin-top: 8px; margin-bottom: 8px; border-radius: 6px; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; border-left-width: 4px; transition: 0.3s;}
-        .circular-btn { display: inline-block; margin-top: 8px; background: #0f3c2a; color: #ffffff; padding: 7px 14px; border-radius: 6px; font-size: 11.5px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+        .checklist-item input { width: 18px; height: 18px; accent-color: #0f3c2a; }
         
-        .input-area { display: flex; padding: 12px 14px; background: #ffffff; border-top: 1px solid #e2e8f0; gap: 6px; align-items: center; z-index: 2; transition: 0.3s; }
-        
-        .bot-action-btn { background: #f1f5f9; color: #0f3c2a; border: 1px solid #cbd5e1; height: 42px; padding: 0 10px; border-radius: 21px; font-size: 11.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s; flex-shrink: 0; font-family: inherit; }
-        .bot-action-btn:hover { background: #e2e8f0; }
-
-        #user-input { flex: 1; padding: 12px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 24px; outline: none; font-size: 13.5px; font-family: inherit; color: #1e293b; transition: 0.3s; }
-        #user-input:focus { border-color: #0f3c2a; background: #ffffff; box-shadow: 0 0 0 3px rgba(15, 60, 42, 0.1); }
-        
-        .action-btn { background: #0f3c2a; color: white; border: none; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; flex-shrink: 0; transition: 0.2s; }
-        .action-btn:hover { background: #16563d; }
-        #mic-btn { background: #f1f5f9; color: #0f3c2a; border: 1px solid #cbd5e1; }
-        #mic-btn.recording { background: #ef4444; color: white; border-color: #ef4444; animation: pulse 1.5s infinite; }
-
-        .typing-indicator { display: flex; gap: 4px; padding: 12px 16px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px 18px 18px 4px; width: fit-content; transition: 0.3s; }
-        .typing-indicator span { width: 6px; height: 6px; background-color: #94a3b8; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
-        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-        
-        body.dark-mode { background: #0f172a; }
-        body.dark-mode .chat-container { background: #1e293b; border-color: #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        body.dark-mode .chat-box { background: #0f172a; }
-        body.dark-mode .ticker-wrap { background: #451a03; color: #fef08a; border-color: #713f12; }
-        body.dark-mode .ai-msg { background: #1e293b; color: #f8fafc; border-color: #334155; }
-        body.dark-mode .ai-msg b { color: #f1f5f9; }
-        body.dark-mode .smart-menu-btn { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #10b981; }
-        body.dark-mode .smart-menu-btn:hover { background: rgba(16, 185, 129, 0.2); }
-        body.dark-mode .input-area { background: #1e293b; border-color: #334155; }
-        body.dark-mode #user-input { background: #0f172a; color: #f8fafc; border-color: #334155; }
-        body.dark-mode #user-input:focus { background: #1e293b; border-color: #10b981; }
-        body.dark-mode .circular-card { background: #0f172a; color: #f8fafc; border-color: #334155; border-left-color: #10b981; }
-        body.dark-mode .typing-indicator { background: #1e293b; border-color: #334155; }
-        body.dark-mode .bot-action-btn { background: #334155; color: #f8fafc; border-color: #475569; }
-        body.dark-mode .bot-action-btn:hover { background: #475569; }
-        body.dark-mode #mic-btn:not(.recording) { background: #334155; color: #f8fafc; border-color: #475569; }
-        body.dark-mode .header-menu-btn { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+        .input-area { display: flex; padding: 12px; background: #ffffff; border-top: 1px solid #e2e8f0; gap: 6px; align-items: center; }
+        .bot-action-btn { background: #f1f5f9; color: #0f3c2a; border: 1px solid #cbd5e1; height: 40px; padding: 0 12px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; }
+        #user-input { flex: 1; padding: 10px 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; font-size: 13px; }
+        .action-btn { background: #0f3c2a; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
-
-    <div id="splash-screen">
-        <img src="https://i.ibb.co.com/4ZgWC66s/logogapura.png" alt="Logo" class="splash-logo">
-        <div class="splash-text">GAPURA SMART</div>
-    </div>
-
     <div class="chat-container">
         <div class="chat-header">
             <div class="header-brand">
-                <img src="https://i.ibb.co.com/4ZgWC66s/logogapura.png" alt="Logo" class="header-logo" onerror="this.style.display='none'">
-                <div>
-                    <h3>Gapura Smart</h3>
-                    <p>Operational Assistant</p>
-                </div>
+                <img src="https://i.ibb.co.com/4ZgWC66s/logogapura.png" class="header-logo">
+                <h3>Gapura Smart</h3>
             </div>
-            <div class="header-actions">
-                <!-- TOMBOL MENU DI HEADER -->
-                <button class="header-menu-btn" onclick="sendQuickReply('Menu')">📂 Menu</button>
-                <button class="theme-toggle" id="theme-btn">🌙</button>
-            </div>
+            <button style="background:none; border:none; color:white; font-size:18px;" id="theme-btn">🌙</button>
         </div>
         
-        <div class="ticker-wrap">
-            <div class="ticker-content">
-                ⚠️ OPERATIONAL ALERT: Antisipasi lonjakan pax area DPS (Denpasar). Pastikan kelengkapan GSE di apron | Target Punctuality (OTP): 99% | Klik "Menu" di atas untuk bantuan.
-            </div>
-        </div>
+        <div class="ticker-wrap"><div class="ticker-content">⚠️ OPERATIONAL ALERT: Antisipasi lonjakan pax area DPS. Pastikan kelengkapan GSE siap. | Ketik "Menu" untuk bantuan.</div></div>
 
-        <!-- CHAT BOX BERSIH TANPA BUBBLE DI AWAL -->
         <div class="chat-box" id="chat-box">
-            <div class="message-wrapper wrapper-ai">
-                <div class="message ai-msg">
-                    Halo GAPURA WARRIORS! 👋<br><br>Asisten operasional siap membantu. Ketik kendala Anda, atau akses cepat tombol di bawah dan menu di atas.
-                </div>
-                <div class="msg-time" id="welcome-time"></div>
+            <div class="message-wrapper">
+                <div class="message ai-msg">Halo GAPURA WARRIORS! 👋<br><br>Gunakan tombol di bawah untuk akses cepat Checklist atau Surat Edaran.</div>
             </div>
         </div>
         
         <div class="input-area">
             <button class="bot-action-btn" onclick="sendQuickReply('Circular')">📢 Circular</button>
             <button class="bot-action-btn" onclick="sendQuickReply('checklist')">📋 Checklist</button>
-            
-            <button class="action-btn" id="mic-btn" title="Pencarian Suara">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
-            </button>
-
-            <input type="text" id="user-input" placeholder="Tanya SOP disini..." autocomplete="off">
-            <button class="action-btn" id="send-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            </button>
+            <input type="text" id="user-input" placeholder="Tanya SOP..." autocomplete="off">
+            <button class="action-btn" id="send-btn">➤</button>
         </div>
     </div>
 
     <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
-                setTimeout(() => { splash.style.visibility = 'hidden'; }, 500);
-            }, 1500);
-        });
-
-        const themeBtn = document.getElementById('theme-btn');
-        themeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            themeBtn.innerText = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-        });
-
-        document.getElementById('welcome-time').innerText = new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
-
         const chatBox = document.getElementById('chat-box');
         const userInput = document.getElementById('user-input');
-        const sendBtn = document.getElementById('send-btn');
-        const micBtn = document.getElementById('mic-btn');
-
+        
         const checklistDatabase = [
-            {
-                title: "📋 Checklist Area Check-in",
-                trigger: "chk_checkin",
-                answer: "<b>📋 CHECKLIST PERSIAPAN AREA CHECK-IN:</b><br>" +
-                        "<label class='checklist-item'><input type='checkbox'> Editing flight (H-48 Jam): SPCL handling, Infant, Child, Group/Couple</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> Mengikuti Briefing</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> Cek perlengkapan (Label Fragile, Heavy, Bag tag, Priority, Transfer)</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> Cek Form document, Sign DGR, & Security Question</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> Mengecek System Counter Check-in</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> Pastikan timbangan pada angka 0 (Zero calibration)</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> Memastikan area konter bersih & rapi</label>"
-            },
-            {
-                title: "📋 Checklist Area Boarding Gate",
-                trigger: "chk_gate",
-                answer: "<b>📋 CHECKLIST PERSIAPAN AREA BOARDING GATE:</b><br>" +
-                        "<label class='checklist-item'><input type='checkbox'> Persiapkan perlengkapan: Sign Board, WCHR, HT, Hand Count, Form, & BTU</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> Alat Remote Parking: Jas Hujan, Payung, & Transportasi</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> Pastikan sistem (Komputer & Scanner) berjalan normal</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> Pastikan layar FIDS gate dalam kondisi baik</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> Pastikan ketersediaan notice DGR</label>" +
-                        "<label class='checklist-item'><input type='checkbox'> Memastikan area gate kondusif & rapi</label>"
-            }
+            { title: "📋 Checklist Area Check-in", trigger: "chk_checkin", answer: "<b>📋 AREA CHECK-IN:</b><br><label class='checklist-item'><input type='checkbox'> Editing flight (H-48 Jam)</label><label class='checklist-item'><input type='checkbox'> Briefing</label><label class='checklist-item'><input type='checkbox'> Cek Perlengkapan</label><label class='checklist-item'><input type='checkbox'> Cek Sistem</label><label class='checklist-item'><input type='checkbox'> Timbangan 0</label>" },
+            { title: "📋 Checklist Area Boarding Gate", trigger: "chk_gate", answer: "<b>📋 AREA BOARDING GATE:</b><br><label class='checklist-item'><input type='checkbox'> Persiapkan perlengkapan</label><label class='checklist-item'><input type='checkbox'> Alat Remote Parking</label><label class='checklist-item'><input type='checkbox'> Sistem (Komputer & Scanner)</label><label class='checklist-item'><input type='checkbox'> Layar FIDS</label><label class='checklist-item'><input type='checkbox'> Area Gate Rapi</label>" }
         ];
 
         const sopDatabase = [
-            {
-                title: "⏱️ Timeline Cut-off Penerbangan",
-                trigger: "cutoff",
-                keywords: ["cutoff", "cut off", "jadwal", "timeline"],
-                answer: "<b>⏱️ TIMELINE KRITIS TURNAROUND (STD):</b><br><ul><li><b>T-45 Mins:</b> Close Check-in Counter</li><li><b>T-30 Mins:</b> Start Boarding (Manifest Ready)</li><li><b>T-10 Mins:</b> Last Cargo & Baggage Loaded</li><li><b>T-05 Mins:</b> Cabin Door Closed & LIR Signed</li></ul>"
-            },
-            {
-                title: "🔋 Regulasi Kapasitas Powerbank",
-                trigger: "powerbank",
-                keywords: ["powerbank", "pb", "baterai"],
-                answer: "<b>1. Batasan Kapasitas (Wh) & Ketentuan:</b><ul><li><b>< 100 Wh:</b> Bebas di kabin.</li><li><b>100 – 160 Wh:</b> Wajib lapor.</li><li><b>> 160 Wh:</b> Dilarang keras.</li></ul>"
-            },
-            {
-                title: "🕒 Aturan Kompensasi Delay",
-                trigger: "delay",
-                keywords: ["delay", "terlambat", "kompensasi"],
-                answer: "<b>ATURAN DELAY (PM 89/2015):</b><br><ul><li><b>30–60 mnt:</b> Minuman ringan.</li><li><b>61–120 mnt:</b> Snack + Minum.</li><li><b>121–180 mnt:</b> Makanan berat.</li><li><b>> 240 mnt:</b> Ganti rugi tunai Rp300.000/orang.</li></ul>"
-            },
-            {
-                title: "🧳 SOP Baggage Offload (BTP)",
-                trigger: "offload",
-                keywords: ["offload", "btp", "penumpang batal"],
-                answer: "<b>🚨 SOP BAGGAGE OFFLOAD:</b><br>1. Segera infokan Team Leader Ramp/Gate via HT.<br>2. Batas pencarian bagasi maks <b>7 menit</b>.<br>3. Jika gagal ditemukan, eskalasi ke Captain (PIC)."
-            }
+            { title: "⏱️ Timeline Cut-off", trigger: "cutoff", keywords: ["cutoff", "cut off"], answer: "<b>TIMELINE:</b> T-45 Close CI, T-30 Boarding, T-10 Cargo, T-05 Door Closed." },
+            { title: "🔋 Powerbank", trigger: "powerbank", keywords: ["powerbank", "baterai"], answer: "<b>POWERBANK:</b> < 100Wh bebas, 100-160Wh lapor, > 160Wh dilarang." }
         ];
 
-        const circularDatabase = [
-            { title: "SE-01/2026: Standar Pelayanan Ground Handling", date: "01 Agustus 2026", desc: "Penyesuaian prosedur penanganan bagasi check-in.", link: "https://drive.google.com" }
-        ];
-
-        function getCurrentTime() { return new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}); }
-
-        function addMessage(text, sender) {
-            const wrapperDiv = document.createElement('div');
-            wrapperDiv.classList.add('message-wrapper', sender === 'user' ? 'wrapper-user' : 'wrapper-ai');
-            const msgDiv = document.createElement('div');
-            msgDiv.classList.add('message', sender === 'user' ? 'user-msg' : 'ai-msg');
-            msgDiv.innerHTML = text;
-            const timeDiv = document.createElement('div');
-            timeDiv.classList.add('msg-time');
-            timeDiv.innerText = getCurrentTime();
-            wrapperDiv.appendChild(msgDiv); wrapperDiv.appendChild(timeDiv);
-            chatBox.appendChild(wrapperDiv); chatBox.scrollTop = chatBox.scrollHeight;
+        function addMessage(text) {
+            const div = document.createElement('div');
+            div.className = 'message-wrapper';
+            div.innerHTML = `<div class="message ai-msg">${text}</div>`;
+            chatBox.appendChild(div); chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        function showTypingIndicator() {
-            const wrapperDiv = document.createElement('div');
-            wrapperDiv.classList.add('message-wrapper', 'wrapper-ai');
-            wrapperDiv.id = 'typing-indicator';
-            const typingDiv = document.createElement('div');
-            typingDiv.classList.add('typing-indicator');
-            for (let i = 0; i < 3; i++) typingDiv.appendChild(document.createElement('span'));
-            wrapperDiv.appendChild(typingDiv); chatBox.appendChild(wrapperDiv); chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        function removeTypingIndicator() { const typingDiv = document.getElementById('typing-indicator'); if (typingDiv) typingDiv.remove(); }
-
-        function renderSmartMenu(isError) {
-            let html = isError ? "SOP/Checklist tidak ditemukan. 😞<br>Silakan pilih menu di bawah ini:<br>" : "<b>📂 KATALOG MENU UTAMA:</b><br>Silakan pilih kategori yang diinginkan:<br>";
-            
-            html += '<br><b>📋 DAFTAR CHECKLIST HARIAN:</b><div class="smart-menu-grid">';
-            checklistDatabase.forEach(item => {
-                html += `<button class="smart-menu-btn" onclick="sendQuickReply('${item.trigger}')">${item.title}</button>`;
-            });
-            html += '</div>';
-
-            html += '<br><b>📖 PANDUAN & ATURAN SOP:</b><div class="smart-menu-grid">';
-            sopDatabase.forEach(item => {
-                html += `<button class="smart-menu-btn" onclick="sendQuickReply('${item.trigger}')">${item.title}</button>`;
-            });
-            html += `<button class="smart-menu-btn" onclick="sendQuickReply('Circular')">📢 Surat Edaran (Circular)</button>`;
-            html += '</div>';
-
+        function renderMenu() {
+            let html = "<b>📂 MENU UTAMA:</b><div class='smart-menu-grid'>";
+            checklistDatabase.forEach(i => html += `<button class='smart-menu-btn' onclick="sendQuickReply('${i.trigger}')">${i.title}</button>`);
+            sopDatabase.forEach(i => html += `<button class='smart-menu-btn' onclick="sendQuickReply('${i.trigger}')">${i.title}</button>`);
+            html += "</div>";
             return html;
         }
 
-        function processMessage(text) {
-            if (text === '') return;
-            addMessage(text, 'user'); userInput.value = ''; showTypingIndicator();
-
-            setTimeout(() => {
-                removeTypingIndicator();
-                let response = "";
-                const cleanText = text.toLowerCase().trim();
-
-                let matchedChecklist = checklistDatabase.find(c => c.trigger === cleanText);
-                let matchedSop = sopDatabase.find(s => s.trigger === cleanText || s.keywords.some(kw => cleanText.includes(kw)));
-
-                if (cleanText === "circular" || cleanText === "surat edaran") {
-                    if (circularDatabase.length === 0) { 
-                        response = "<b>Belum ada Circular aktif saat ini.</b>"; 
-                    } else {
-                        response = "<b>📢 SURAT EDARAN RESMI AKTIF:</b><br><br>";
-                        circularDatabase.forEach(c => { 
-                            response += `<div class="circular-card"><b>${c.title}</b><br><span style="font-size:11px; color:#64748b;">📅 ${c.date}</span><br>${c.desc}<br><a href="${c.link}" target="_blank" class="circular-btn">📄 Buka Berkas</a></div>`; 
-                        });
-                    }
-                } 
-                else if (cleanText === "menu" || cleanText === "bantuan" || cleanText === "help") {
-                    response = renderSmartMenu(false);
-                } 
-                else if (cleanText === "checklist" || cleanText === "chk") {
-                    // Kalau klik tombol checklist di bawah, langsung munculin pilihan area checklist
-                    response = "<b>📋 SILAHKAN PILIH AREA CHECKLIST:</b><div class='smart-menu-grid'>";
-                    checklistDatabase.forEach(item => {
-                        response += `<button class='smart-menu-btn' onclick="sendQuickReply('${item.trigger}')">${item.title}</button>`;
-                    });
-                    response += "</div>";
-                }
-                else if (matchedChecklist) {
-                    response = matchedChecklist.answer;
-                }
-                else if (matchedSop) {
-                    response = matchedSop.answer;
-                }
-                else {
-                    response = renderSmartMenu(true); 
-                }
-                addMessage(response, 'ai');
-            }, 400); 
+        function sendQuickReply(text) {
+            if(text === 'checklist') {
+                let html = "<b>📋 PILIH AREA:</b><div class='smart-menu-grid'>";
+                checklistDatabase.forEach(i => html += `<button class='smart-menu-btn' onclick="sendQuickReply('${i.trigger}')">${i.title}</button>`);
+                html += "</div>";
+                addMessage(html);
+            } else {
+                let found = [...checklistDatabase, ...sopDatabase].find(x => x.trigger === text || (x.keywords && x.keywords.includes(text)));
+                addMessage(found ? found.answer : renderMenu());
+            }
         }
 
-        window.sendQuickReply = function(text) { processMessage(text); }
-        sendBtn.addEventListener('click', () => processMessage(userInput.value.trim()));
-        userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') processMessage(userInput.value.trim()); });
-
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (SpeechRecognition) {
-            const recognition = new SpeechRecognition(); recognition.lang = 'id-ID'; recognition.interimResults = false;
-            micBtn.addEventListener('click', () => { micBtn.classList.add('recording'); userInput.placeholder = "Mendengarkan..."; recognition.start(); });
-            recognition.addEventListener('result', (e) => { const transcript = e.results[0][0].transcript; userInput.value = transcript; processMessage(transcript); });
-            recognition.addEventListener('end', () => { micBtn.classList.remove('recording'); userInput.placeholder = "Tanya SOP disini..."; });
-        } else { micBtn.style.display = 'none'; }
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').catch(err => console.log('Gagal pasang offline mode', err));
-            });
-        }
+        document.getElementById('send-btn').addEventListener('click', () => {
+            let val = userInput.value.toLowerCase();
+            if(val.includes('menu')) addMessage(renderMenu());
+            else sendQuickReply(val);
+            userInput.value = '';
+        });
     </script>
 </body>
 </html>
