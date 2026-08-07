@@ -57,7 +57,15 @@
         .header-brand p { font-size: 11px; color: #94a3b8; font-weight: 500; }
         .header-logo { width: 38px; height: 38px; object-fit: contain; background-color: #ffffff; border-radius: 12px; padding: 4px; }
         
-        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .header-actions { display: flex; gap: 8px; align-items: center; }
+        
+        /* TOMBOL MENU DI HEADER */
+        .header-menu-btn {
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white;
+            padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        .header-menu-btn:hover { background: rgba(255,255,255,0.25); }
+
         .theme-toggle { background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
         .theme-toggle:hover { background: rgba(255,255,255,0.3); }
 
@@ -79,7 +87,6 @@
         .ai-msg { background: #ffffff; color: #334155; border: 1px solid #e2e8f0; border-radius: 18px 18px 18px 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: 0.3s; }
         .msg-time { font-size: 10px; color: #94a3b8; margin-top: 4px; font-weight: 500; }
         
-        /* SMART MENU & CHECKLIST STYLES */
         .smart-menu-grid { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
         .smart-menu-btn {
             background: rgba(15, 60, 42, 0.05); border: 1px solid rgba(15, 60, 42, 0.15); color: #0f3c2a;
@@ -89,20 +96,17 @@
         .smart-menu-btn:hover { background: rgba(15, 60, 42, 0.1); border-color: rgba(15, 60, 42, 0.3); }
         .smart-menu-btn::after { content: "→"; font-size: 14px; font-weight: bold; }
 
-        /* INTERACTIVE CHECKLIST ITEM */
         .checklist-item { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
         .checklist-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: #0f3c2a; cursor: pointer; }
 
         .circular-card { background: #ffffff; border-left: 4px solid #0f3c2a; padding: 12px 14px; margin-top: 8px; margin-bottom: 8px; border-radius: 6px; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; border-left-width: 4px; transition: 0.3s;}
         .circular-btn { display: inline-block; margin-top: 8px; background: #0f3c2a; color: #ffffff; padding: 7px 14px; border-radius: 6px; font-size: 11.5px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
         
-        .quick-replies { display: flex; flex-wrap: wrap; gap: 8px; margin-top: -4px; z-index: 1; }
-        .chip { background: #ffffff; border: 1px solid #cbd5e1; color: #475569; padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .chip:hover { background: #f1f5f9; border-color: #94a3b8; color: #0f3c2a; }
-
-        .input-area { display: flex; padding: 12px 14px; background: #ffffff; border-top: 1px solid #e2e8f0; gap: 8px; align-items: center; z-index: 2; transition: 0.3s; }
-        #circular-btn-bot { background: #f1f5f9; color: #0f3c2a; border: 1px solid #cbd5e1; height: 42px; padding: 0 12px; border-radius: 21px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s; flex-shrink: 0; font-family: inherit; }
+        .input-area { display: flex; padding: 12px 14px; background: #ffffff; border-top: 1px solid #e2e8f0; gap: 6px; align-items: center; z-index: 2; transition: 0.3s; }
         
+        .bot-action-btn { background: #f1f5f9; color: #0f3c2a; border: 1px solid #cbd5e1; height: 42px; padding: 0 10px; border-radius: 21px; font-size: 11.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s; flex-shrink: 0; font-family: inherit; }
+        .bot-action-btn:hover { background: #e2e8f0; }
+
         #user-input { flex: 1; padding: 12px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 24px; outline: none; font-size: 13.5px; font-family: inherit; color: #1e293b; transition: 0.3s; }
         #user-input:focus { border-color: #0f3c2a; background: #ffffff; box-shadow: 0 0 0 3px rgba(15, 60, 42, 0.1); }
         
@@ -126,11 +130,12 @@
         body.dark-mode .input-area { background: #1e293b; border-color: #334155; }
         body.dark-mode #user-input { background: #0f172a; color: #f8fafc; border-color: #334155; }
         body.dark-mode #user-input:focus { background: #1e293b; border-color: #10b981; }
-        body.dark-mode .chip { background: #1e293b; color: #cbd5e1; border-color: #334155; }
         body.dark-mode .circular-card { background: #0f172a; color: #f8fafc; border-color: #334155; border-left-color: #10b981; }
         body.dark-mode .typing-indicator { background: #1e293b; border-color: #334155; }
-        body.dark-mode #circular-btn-bot { background: #334155; color: #f8fafc; border-color: #475569; }
+        body.dark-mode .bot-action-btn { background: #334155; color: #f8fafc; border-color: #475569; }
+        body.dark-mode .bot-action-btn:hover { background: #475569; }
         body.dark-mode #mic-btn:not(.recording) { background: #334155; color: #f8fafc; border-color: #475569; }
+        body.dark-mode .header-menu-btn { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
     </style>
 </head>
 <body>
@@ -150,34 +155,31 @@
                 </div>
             </div>
             <div class="header-actions">
+                <!-- TOMBOL MENU DI HEADER -->
+                <button class="header-menu-btn" onclick="sendQuickReply('Menu')">📂 Menu</button>
                 <button class="theme-toggle" id="theme-btn">🌙</button>
             </div>
         </div>
         
         <div class="ticker-wrap">
             <div class="ticker-content">
-                ⚠️ OPERATIONAL ALERT: Antisipasi lonjakan pax area DPS (Denpasar). Pastikan kelengkapan GSE di apron | Target Punctuality (OTP): 99% | Ketik "Menu" untuk bantuan.
+                ⚠️ OPERATIONAL ALERT: Antisipasi lonjakan pax area DPS (Denpasar). Pastikan kelengkapan GSE di apron | Target Punctuality (OTP): 99% | Klik "Menu" di atas untuk bantuan.
             </div>
         </div>
 
+        <!-- CHAT BOX BERSIH TANPA BUBBLE DI AWAL -->
         <div class="chat-box" id="chat-box">
             <div class="message-wrapper wrapper-ai">
                 <div class="message ai-msg">
-                    Halo GAPURA WARRIORS! 👋<br><br>Ketik / ucapkan kendala operasional Anda, atau klik <b>📢 Circular</b> untuk surat edaran terbaru.
+                    Halo GAPURA WARRIORS! 👋<br><br>Asisten operasional siap membantu. Ketik kendala Anda, atau akses cepat tombol di bawah dan menu di atas.
                 </div>
                 <div class="msg-time" id="welcome-time"></div>
-            </div>
-            
-            <div class="quick-replies" id="quick-replies">
-                <div class="chip" onclick="sendQuickReply('Timeline Cut off')">⏱️ Cut off Time</div>
-                <div class="chip" onclick="sendQuickReply('Aturan Delay')">Aturan Delay</div>
-                <div class="chip" onclick="sendQuickReply('Checklist')">📋 Shift Checklist</div>
-                <div class="chip" onclick="sendQuickReply('Menu')">📂 Menu Lengkap</div>
             </div>
         </div>
         
         <div class="input-area">
-            <button id="circular-btn-bot" onclick="sendQuickReply('Circular')">📢 Circular</button>
+            <button class="bot-action-btn" onclick="sendQuickReply('Circular')">📢 Circular</button>
+            <button class="bot-action-btn" onclick="sendQuickReply('checklist')">📋 Checklist</button>
             
             <button class="action-btn" id="mic-btn" title="Pencarian Suara">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
@@ -211,10 +213,7 @@
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
         const micBtn = document.getElementById('mic-btn');
-        const quickReplies = document.getElementById('quick-replies');
 
-        // DATABASE SOP
-// 1. DATABASE CHECKLIST (Tugas Lapangan)
         const checklistDatabase = [
             {
                 title: "📋 Checklist Area Check-in",
@@ -241,7 +240,6 @@
             }
         ];
 
-        // 2. DATABASE ATURAN & SOP (Panduan & Regulasi)
         const sopDatabase = [
             {
                 title: "⏱️ Timeline Cut-off Penerbangan",
@@ -303,14 +301,12 @@
         function renderSmartMenu(isError) {
             let html = isError ? "SOP/Checklist tidak ditemukan. 😞<br>Silakan pilih menu di bawah ini:<br>" : "<b>📂 KATALOG MENU UTAMA:</b><br>Silakan pilih kategori yang diinginkan:<br>";
             
-            // Kategori Checklist
             html += '<br><b>📋 DAFTAR CHECKLIST HARIAN:</b><div class="smart-menu-grid">';
             checklistDatabase.forEach(item => {
                 html += `<button class="smart-menu-btn" onclick="sendQuickReply('${item.trigger}')">${item.title}</button>`;
             });
             html += '</div>';
 
-            // Kategori Aturan / SOP
             html += '<br><b>📖 PANDUAN & ATURAN SOP:</b><div class="smart-menu-grid">';
             sopDatabase.forEach(item => {
                 html += `<button class="smart-menu-btn" onclick="sendQuickReply('${item.trigger}')">${item.title}</button>`;
@@ -320,9 +316,9 @@
 
             return html;
         }
+
         function processMessage(text) {
             if (text === '') return;
-            if(quickReplies.style.display !== 'none') quickReplies.style.display = 'none';
             addMessage(text, 'user'); userInput.value = ''; showTypingIndicator();
 
             setTimeout(() => {
@@ -330,7 +326,6 @@
                 let response = "";
                 const cleanText = text.toLowerCase().trim();
 
-                // Cek apakah yang diklik adalah checklist atau SOP
                 let matchedChecklist = checklistDatabase.find(c => c.trigger === cleanText);
                 let matchedSop = sopDatabase.find(s => s.trigger === cleanText || s.keywords.some(kw => cleanText.includes(kw)));
 
@@ -347,6 +342,14 @@
                 else if (cleanText === "menu" || cleanText === "bantuan" || cleanText === "help") {
                     response = renderSmartMenu(false);
                 } 
+                else if (cleanText === "checklist" || cleanText === "chk") {
+                    // Kalau klik tombol checklist di bawah, langsung munculin pilihan area checklist
+                    response = "<b>📋 SILAHKAN PILIH AREA CHECKLIST:</b><div class='smart-menu-grid'>";
+                    checklistDatabase.forEach(item => {
+                        response += `<button class='smart-menu-btn' onclick="sendQuickReply('${item.trigger}')">${item.title}</button>`;
+                    });
+                    response += "</div>";
+                }
                 else if (matchedChecklist) {
                     response = matchedChecklist.answer;
                 }
@@ -359,6 +362,7 @@
                 addMessage(response, 'ai');
             }, 400); 
         }
+
         window.sendQuickReply = function(text) { processMessage(text); }
         sendBtn.addEventListener('click', () => processMessage(userInput.value.trim()));
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') processMessage(userInput.value.trim()); });
