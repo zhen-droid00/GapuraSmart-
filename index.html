@@ -301,16 +301,25 @@
         function removeTypingIndicator() { const typingDiv = document.getElementById('typing-indicator'); if (typingDiv) typingDiv.remove(); }
 
         function renderSmartMenu(isError) {
-            let html = isError ? "SOP tidak ditemukan. 😞<br>Silakan pilih menu di bawah ini:<br>" : "<b>📂 KATALOG MENU SOP:</b><br>Silakan pilih panduan cepat berikut:<br>";
-            html += '<div class="smart-menu-grid">';
+            let html = isError ? "SOP/Checklist tidak ditemukan. 😞<br>Silakan pilih menu di bawah ini:<br>" : "<b>📂 KATALOG MENU UTAMA:</b><br>Silakan pilih kategori yang diinginkan:<br>";
+            
+            // Kategori Checklist
+            html += '<br><b>📋 DAFTAR CHECKLIST HARIAN:</b><div class="smart-menu-grid">';
+            checklistDatabase.forEach(item => {
+                html += `<button class="smart-menu-btn" onclick="sendQuickReply('${item.trigger}')">${item.title}</button>`;
+            });
+            html += '</div>';
+
+            // Kategori Aturan / SOP
+            html += '<br><b>📖 PANDUAN & ATURAN SOP:</b><div class="smart-menu-grid">';
             sopDatabase.forEach(item => {
                 html += `<button class="smart-menu-btn" onclick="sendQuickReply('${item.trigger}')">${item.title}</button>`;
             });
             html += `<button class="smart-menu-btn" onclick="sendQuickReply('Circular')">📢 Surat Edaran (Circular)</button>`;
             html += '</div>';
+
             return html;
         }
-
         function processMessage(text) {
             if (text === '') return;
             if(quickReplies.style.display !== 'none') quickReplies.style.display = 'none';
@@ -321,29 +330,35 @@
                 let response = "";
                 const cleanText = text.toLowerCase().trim();
 
+                // Cek apakah yang diklik adalah checklist atau SOP
+                let matchedChecklist = checklistDatabase.find(c => c.trigger === cleanText);
+                let matchedSop = sopDatabase.find(s => s.trigger === cleanText || s.keywords.some(kw => cleanText.includes(kw)));
+
                 if (cleanText === "circular" || cleanText === "surat edaran") {
-                    if (circularDatabase.length === 0) { response = "<b>Belum ada Circular (Surat Edaran) aktif saat ini.</b>"; } 
-                    else {
+                    if (circularDatabase.length === 0) { 
+                        response = "<b>Belum ada Circular aktif saat ini.</b>"; 
+                    } else {
                         response = "<b>📢 SURAT EDARAN RESMI AKTIF:</b><br><br>";
-                        circularDatabase.forEach(c => { response += `<div class="circular-card"><b>${c.title}</b><br><span style="font-size:11px; color:#64748b;">📅 ${c.date}</span><br>${c.desc}<br><a href="${c.link}" target="_blank" class="circular-btn">📄 Buka Berkas</a></div>`; });
+                        circularDatabase.forEach(c => { 
+                            response += `<div class="circular-card"><b>${c.title}</b><br><span style="font-size:11px; color:#64748b;">📅 ${c.date}</span><br>${c.desc}<br><a href="${c.link}" target="_blank" class="circular-btn">📄 Buka Berkas</a></div>`; 
+                        });
                     }
                 } 
                 else if (cleanText === "menu" || cleanText === "bantuan" || cleanText === "help") {
                     response = renderSmartMenu(false);
                 } 
+                else if (matchedChecklist) {
+                    response = matchedChecklist.answer;
+                }
+                else if (matchedSop) {
+                    response = matchedSop.answer;
+                }
                 else {
-                    let found = false;
-                    for (let i = 0; i < sopDatabase.length; i++) {
-                        if (sopDatabase[i].keywords.some(kw => cleanText.includes(kw))) {
-                            response = sopDatabase[i].answer; found = true; break;
-                        }
-                    }
-                    if (!found) response = renderSmartMenu(true); 
+                    response = renderSmartMenu(true); 
                 }
                 addMessage(response, 'ai');
             }, 400); 
         }
-
         window.sendQuickReply = function(text) { processMessage(text); }
         sendBtn.addEventListener('click', () => processMessage(userInput.value.trim()));
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') processMessage(userInput.value.trim()); });
