@@ -61,7 +61,6 @@
         .theme-toggle { background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
         .theme-toggle:hover { background: rgba(255,255,255,0.3); }
 
-        /* --- FITUR 1: TICKER ALERT (RUNNING TEXT) --- */
         .ticker-wrap {
             background: #fef08a; width: 100%; overflow: hidden; height: 32px; line-height: 32px; 
             padding-left: 16px; border-bottom: 1px solid #fde047; font-size: 11.5px; font-weight: 700; 
@@ -80,7 +79,7 @@
         .ai-msg { background: #ffffff; color: #334155; border: 1px solid #e2e8f0; border-radius: 18px 18px 18px 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: 0.3s; }
         .msg-time { font-size: 10px; color: #94a3b8; margin-top: 4px; font-weight: 500; }
         
-        /* --- FITUR 3: SMART MENU BUTTONS --- */
+        /* SMART MENU & CHECKLIST STYLES */
         .smart-menu-grid { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
         .smart-menu-btn {
             background: rgba(15, 60, 42, 0.05); border: 1px solid rgba(15, 60, 42, 0.15); color: #0f3c2a;
@@ -89,6 +88,10 @@
         }
         .smart-menu-btn:hover { background: rgba(15, 60, 42, 0.1); border-color: rgba(15, 60, 42, 0.3); }
         .smart-menu-btn::after { content: "→"; font-size: 14px; font-weight: bold; }
+
+        /* INTERACTIVE CHECKLIST ITEM */
+        .checklist-item { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .checklist-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: #0f3c2a; cursor: pointer; }
 
         .circular-card { background: #ffffff; border-left: 4px solid #0f3c2a; padding: 12px 14px; margin-top: 8px; margin-bottom: 8px; border-radius: 6px; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; border-left-width: 4px; transition: 0.3s;}
         .circular-btn { display: inline-block; margin-top: 8px; background: #0f3c2a; color: #ffffff; padding: 7px 14px; border-radius: 6px; font-size: 11.5px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
@@ -112,7 +115,6 @@
         .typing-indicator span { width: 6px; height: 6px; background-color: #94a3b8; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
         
-        /* DARK MODE - Termasuk Update Warna Smart Menu & Ticker */
         body.dark-mode { background: #0f172a; }
         body.dark-mode .chat-container { background: #1e293b; border-color: #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
         body.dark-mode .chat-box { background: #0f172a; }
@@ -152,7 +154,6 @@
             </div>
         </div>
         
-        <!-- TICKER ALERT RUNNING TEXT -->
         <div class="ticker-wrap">
             <div class="ticker-content">
                 ⚠️ OPERATIONAL ALERT: Antisipasi lonjakan pax area DPS (Denpasar). Pastikan kelengkapan GSE di apron | Target Punctuality (OTP): 99% | Ketik "Menu" untuk bantuan.
@@ -170,7 +171,8 @@
             <div class="quick-replies" id="quick-replies">
                 <div class="chip" onclick="sendQuickReply('Timeline Cut off')">⏱️ Cut off Time</div>
                 <div class="chip" onclick="sendQuickReply('Aturan Delay')">Aturan Delay</div>
-                <div class="chip" onclick="sendQuickReply('Menu')">📋 Menu Lengkap</div>
+                <div class="chip" onclick="sendQuickReply('Checklist')">📋 Shift Checklist</div>
+                <div class="chip" onclick="sendQuickReply('Menu')">📂 Menu Lengkap</div>
             </div>
         </div>
         
@@ -211,7 +213,7 @@
         const micBtn = document.getElementById('mic-btn');
         const quickReplies = document.getElementById('quick-replies');
 
-        // STRUKTUR DATABASE BARU (Ada 'title' buat di Smart Menu)
+        // DATABASE SOP
         const sopDatabase = [
             {
                 title: "⏱️ Timeline Cut-off Penerbangan",
@@ -236,6 +238,16 @@
                 trigger: "offload",
                 keywords: ["offload", "btp", "penumpang batal"],
                 answer: "<b>🚨 SOP BAGGAGE OFFLOAD:</b><br>1. Segera infokan Team Leader Ramp/Gate via HT.<br>2. Batas pencarian bagasi maks <b>7 menit</b>.<br>3. Jika gagal ditemukan, eskalasi ke Captain (PIC)."
+            },
+            {
+                title: "📋 Interactive Shift Checklist",
+                trigger: "checklist",
+                keywords: ["checklist", "persiapan", "tugas", "shift"],
+                answer: "<b>📋 CHECKLIST MANDIRI PERSIAPAN SHIFT:</b><br>Silakan centang tugas yang sudah diselesaikan:<br>" +
+                        "<label class='checklist-item'><input type='checkbox'> 1. Cek kelengkapan perangkat HT & Headset</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> 2. Koordinasi Briefing dengan Team Leader</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> 3. Pastikan sistem DCS & Gate Berfungsi</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> 4. Cek area Apron & GSE siap pakai</label>"
             }
         ];
 
@@ -270,9 +282,8 @@
 
         function removeTypingIndicator() { const typingDiv = document.getElementById('typing-indicator'); if (typingDiv) typingDiv.remove(); }
 
-        // FUNGSI BUAT NAMPILIN KATALOG MENU OTOMATIS
         function renderSmartMenu(isError) {
-            let html = isError ? "SOP tidak ditemukan. 😞<br>Silakan pilih menu di bawah ini:<br>" : "<b>📋 KATALOG MENU SOP:</b><br>Silakan pilih panduan cepat berikut:<br>";
+            let html = isError ? "SOP tidak ditemukan. 😞<br>Silakan pilih menu di bawah ini:<br>" : "<b>📂 KATALOG MENU SOP:</b><br>Silakan pilih panduan cepat berikut:<br>";
             html += '<div class="smart-menu-grid">';
             sopDatabase.forEach(item => {
                 html += `<button class="smart-menu-btn" onclick="sendQuickReply('${item.trigger}')">${item.title}</button>`;
@@ -300,7 +311,7 @@
                     }
                 } 
                 else if (cleanText === "menu" || cleanText === "bantuan" || cleanText === "help") {
-                    response = renderSmartMenu(false); // Munculin menu normal
+                    response = renderSmartMenu(false);
                 } 
                 else {
                     let found = false;
@@ -309,7 +320,6 @@
                             response = sopDatabase[i].answer; found = true; break;
                         }
                     }
-                    // Kalau salah ngetik keyword, munculin menu juga sebagai penunjuk arah!
                     if (!found) response = renderSmartMenu(true); 
                 }
                 addMessage(response, 'ai');
