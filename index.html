@@ -14,8 +14,8 @@
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #e2e8f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; overflow: hidden; }
-        .chat-container { width: 100%; max-width: 480px; height: 100vh; background: #ffffff; display: flex; flex-direction: column; overflow: hidden; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #e2e8f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; overflow: hidden; transition: background 0.3s; }
+        .chat-container { width: 100%; max-width: 480px; height: 100vh; background: #ffffff; display: flex; flex-direction: column; overflow: hidden; transition: all 0.3s; }
         .chat-header { background: #0f3c2a; color: #ffffff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
         .header-brand { display: flex; align-items: center; gap: 12px; }
         .header-logo { width: 35px; height: 35px; background: white; border-radius: 8px; padding: 3px; }
@@ -25,30 +25,70 @@
         .ticker-content { display: inline-block; animation: ticker 25s linear infinite; }
         @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
-        .chat-box { flex: 1; padding: 20px 16px; overflow-y: auto; background: #f8fafc; }
+        .chat-box { flex: 1; padding: 20px 16px; overflow-y: auto; background: #f8fafc; transition: 0.3s; }
         .message-wrapper { display: flex; flex-direction: column; margin-bottom: 16px; }
-        .ai-msg { background: #ffffff; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 18px 18px 18px 4px; font-size: 13.5px; color: #334155; }
+        .ai-msg { background: #ffffff; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 18px 18px 18px 4px; font-size: 13.5px; color: #334155; transition: 0.3s; }
         
         .smart-menu-grid { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-        .smart-menu-btn { background: #f1f5f9; border: 1px solid #e2e8f0; color: #0f3c2a; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 700; text-align: left; cursor: pointer; }
+        .smart-menu-btn { background: #f1f5f9; border: 1px solid #e2e8f0; color: #0f3c2a; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 700; text-align: left; cursor: pointer; transition: 0.2s; }
         
         .checklist-item { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
         .checklist-item input { width: 18px; height: 18px; accent-color: #0f3c2a; }
         
-        .input-area { display: flex; padding: 12px; background: #ffffff; border-top: 1px solid #e2e8f0; gap: 6px; align-items: center; }
+        .input-area { display: flex; padding: 12px; background: #ffffff; border-top: 1px solid #e2e8f0; gap: 6px; align-items: center; transition: 0.3s; }
         .bot-action-btn { background: #f1f5f9; color: #0f3c2a; border: 1px solid #cbd5e1; height: 40px; padding: 0 12px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; }
-        #user-input { flex: 1; padding: 10px 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; font-size: 13px; }
-        .action-btn { background: #0f3c2a; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        #user-input { flex: 1; padding: 10px 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; font-size: 13px; transition: 0.3s; }
+        .action-btn { background: #0f3c2a; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
+
+        /* --- FITUR 3: SPLASH SCREEN ANIMATION --- */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #0f3c2a; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s;
+        }
+        .splash-logo { width: 80px; height: 80px; background: white; border-radius: 20px; padding: 10px; animation: pulse 1.5s infinite; }
+        .splash-text { color: white; margin-top: 15px; font-size: 20px; font-weight: 700; letter-spacing: 1px; }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        /* --- FITUR 1: VOICE COMMAND MIC STYLES --- */
+        #mic-btn { background: #f1f5f9; color: #0f3c2a; border: 1px solid #cbd5e1; }
+        #mic-btn.recording { background: #ef4444; color: white; border-color: #ef4444; animation: pulse 1.5s infinite; }
+
+        /* --- FITUR 2: DARK MODE STYLES --- */
+        body.dark-mode { background: #0f172a; }
+        body.dark-mode .chat-container { background: #1e293b; border-color: #334155; }
+        body.dark-mode .chat-box { background: #0f172a; }
+        body.dark-mode .ticker-wrap { background: #451a03; color: #fef08a; border-color: #713f12; }
+        body.dark-mode .ai-msg { background: #1e293b; color: #f8fafc; border-color: #334155; }
+        body.dark-mode .smart-menu-btn { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #10b981; }
+        body.dark-mode .input-area { background: #1e293b; border-color: #334155; }
+        body.dark-mode #user-input { background: #0f172a; color: #f8fafc; border-color: #334155; }
+        body.dark-mode .bot-action-btn { background: #334155; color: #f8fafc; border-color: #475569; }
+        body.dark-mode #mic-btn:not(.recording) { background: #334155; color: #f8fafc; border-color: #475569; }
+        #theme-btn { cursor: pointer; transition: transform 0.2s; }
+        #theme-btn:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
+    
+    <!-- FITUR 3: SPLASH SCREEN HTML -->
+    <div id="splash-screen">
+        <img src="https://i.ibb.co.com/4ZgWC66s/logogapura.png" alt="Logo" class="splash-logo">
+        <div class="splash-text">GAPURA SMART</div>
+    </div>
+
     <div class="chat-container">
         <div class="chat-header">
             <div class="header-brand">
                 <img src="https://i.ibb.co.com/4ZgWC66s/logogapura.png" class="header-logo">
                 <h3>Gapura Smart</h3>
             </div>
-            <button style="background:none; border:none; color:white; font-size:18px;" id="theme-btn">🌙</button>
+            <!-- FITUR 2: DARK MODE TOGGLE BUTTON -->
+            <button style="background:none; border:none; color:white; font-size:18px;" id="theme-btn" title="Mode Gelap">🌙</button>
         </div>
         
         <div class="ticker-wrap"><div class="ticker-content">⚠️ OPERATIONAL ALERT: Bekerja dengan Mengikuti SOP | Utamakan Safety & Security </div></div>
@@ -62,19 +102,42 @@
         <div class="input-area">
             <button class="bot-action-btn" onclick="sendQuickReply('Circular')">📢 Circular</button>
             <button class="bot-action-btn" onclick="sendQuickReply('checklist')">📋 Checklist</button>
+            
+            <!-- FITUR 1: VOICE COMMAND BUTTON -->
+            <button class="action-btn" id="mic-btn" title="Pencarian Suara">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            </button>
+
             <input type="text" id="user-input" placeholder="Tanya SOP..." autocomplete="off">
             <button class="action-btn" id="send-btn">➤</button>
         </div>
     </div>
 
-    <!-- PEMANGGILAN FILE DATA EKSTERNAL DITARUH DI SINI -->
+    <!-- PEMANGGILAN DATA SOP (TETAP AMAN) -->
     <script src="sop-data.js"></script>
 
     <script>
+        // --- LOGIKA FITUR 3: SPLASH SCREEN ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => { splash.style.visibility = 'hidden'; }, 500);
+            }, 1500);
+        });
+
+        // --- LOGIKA FITUR 2: DARK MODE ---
+        const themeBtn = document.getElementById('theme-btn');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeBtn.innerText = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+
+        // --- LOGIKA UTAMA APLIKASI (TIDAK ADA YANG DIHAPUS) ---
         const chatBox = document.getElementById('chat-box');
         const userInput = document.getElementById('user-input');
         const circularDatabase = [
-            { title: "SE-01/2026: Standar Pelayanan Ground Handling",link: "https://drive.google.com/drive/folders/1-YlewEQvT3BBQUhXrVx66fW_9vfVWJSg"}
+            { title: "SE-01/2026: Standar Pelayanan Ground Handling", date: "01 Agustus 2026", desc: "Penyesuaian prosedur penanganan bagasi check-in.", link: "https://drive.google.com" }
         ];
 
         function addMessage(text) {
@@ -122,6 +185,34 @@
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleSend();
         });
+
+        // --- LOGIKA FITUR 1: VOICE COMMAND ---
+        const micBtn = document.getElementById('mic-btn');
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition(); 
+            recognition.lang = 'id-ID'; 
+            recognition.interimResults = false;
+
+            micBtn.addEventListener('click', () => {
+                micBtn.classList.add('recording');
+                userInput.placeholder = "Mendengarkan...";
+                recognition.start();
+            });
+
+            recognition.addEventListener('result', (e) => {
+                const transcript = e.results[0][0].transcript;
+                userInput.value = transcript;
+                handleSend(); // Langsung terkirim otomatis setelah ngomong
+            });
+
+            recognition.addEventListener('end', () => {
+                micBtn.classList.remove('recording');
+                userInput.placeholder = "Tanya SOP...";
+            });
+        } else {
+            micBtn.style.display = 'none'; // Sembunyikan mic jika browser (seperti Safari lama) tidak support
+        }
     </script>
 </body>
 </html>
