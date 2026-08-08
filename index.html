@@ -196,10 +196,17 @@
                 }
             } else {
                 let found = [...checklistDatabase, ...sopDatabase].find(x => x.trigger === text || (x.keywords && x.keywords.includes(text)));
-                addMessage(found ? found.answer : renderMenu(), 'ai');
+                
+                // --- CODINGAN PAMUNGKAS: FITUR PENOLAKAN ---
+                if (found) {
+                    addMessage(found.answer, 'ai');
+                } else {
+                    let teksPenolakan = "<b>⚠️ PERINTAH TIDAK DIKENALI</b><br><br>Maaf Warriors, saya hanya diprogram untuk merespons kata kunci seputar operasional Ground Handling Gapura.<br><br>Silakan ketik kata kunci yang valid (contoh: <i>'delay'</i>) atau pilih katalog menu di bawah ini:<br><br>";
+                    addMessage(teksPenolakan + renderMenu(), 'ai');
+                }
+                // -------------------------------------------
             }
         }
-
         document.getElementById('send-btn').addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleSend();
