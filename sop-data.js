@@ -67,3 +67,11 @@
                         "<li>Maskapai bebas dari kewajiban ganti rugi hanya jika bisa membuktikan delay disebabkan faktor cuaca buruk atau masalah teknis operasional bandara.</li></ul>"
             }
         ];
+const circularDatabase = [
+    { 
+        title: "SE-01/2026: Standar Pelayanan Ground Handling", 
+        date: "01 Agustus 2026", 
+        desc: "Penyesuaian prosedur SOP", 
+        link: "https://drive.google.com/drive/folders/1-YlewEQvT3BBQUhXrVx66fW_9vfVWJSg?hl=ID" 
+    }
+];
