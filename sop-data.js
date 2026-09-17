@@ -1,4 +1,4 @@
-        const checklistDatabase = [
+const checklistDatabase = [
             {
                 title: "📋 Checklist Area Check-in",
                 trigger: "checkin",
@@ -23,6 +23,18 @@
                         "<label class='checklist-item'><input type='checkbox'> Pastikan layar FIDS gate dalam kondisi baik</label>" +
                         "<label class='checklist-item'><input type='checkbox'> Pastikan ketersediaan notice DGR</label>" +
                         "<label class='checklist-item'><input type='checkbox'> Memastikan area gate kondusif & rapi</label>"
+            },
+            // --- ATURAN CHECKLIST BARU ---
+            {
+                title: "📋 Checklist Area Ramp / Apron",
+                trigger: "ramp",
+                keywords: ["ramp", "apron", "als"],
+                answer: "<b>📋 CHECKLIST PERSIAPAN AREA RAMP / GSE:</b><br>" +
+                        "<label class='checklist-item'><input type='checkbox'> Cek kelayakan alat GSE (GPU, Belt Loader, Baggage Towing Tractor, High Lift)</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Pastikan area parking stand bersih dari Foreign Object Damage (FOD)</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Koordinasi marshalling dan penempatan wheel chock</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Pengecekan alat komunikasi (HT) berfungsi dengan baik</label>" +
+                        "<label class='checklist-item'><input type='checkbox'> Memastikan Alat Pelindung Diri (APD) lengkap dan digunakan tim</label>"
             }
         ];
 
@@ -65,13 +77,28 @@
                         "<li><b>Tenggat Waktu:</b> Wajib dibayarkan maskapai maksimal 3 x 24 jam sejak waktu delay.</li></ul><br>" +
                         "<b>4. Pengecualian Tanggung Jawab:</b><ul>" +
                         "<li>Maskapai bebas dari kewajiban ganti rugi hanya jika bisa membuktikan delay disebabkan faktor cuaca buruk atau masalah teknis operasional bandara.</li></ul>"
+            },
+            // --- ATURAN SOP BARU ---
+            {
+                title: "🧳 Penanganan Bagasi Rusak / Hilang (PIR)",
+                trigger: "bagasi",
+                keywords: ["bagasi", "lost", "damaged", "pir", "baggage"],
+                answer: "<b>PROSEDUR PENANGANAN BAGASI (PIR - Property Irregularity Report):</b><br><br>" +
+                        "<b>1. Pelaporan Kerusakan / Kehilangan:</b><ul>" +
+                        "<li>Penumpang wajib melapor ke counter <i>Lost and Found</i> sebelum keluar dari area kedatangan (Arrival).</li>" +
+                        "<li>Tunjukkan Baggage Tag (Label Bagasi) asli dan Boarding Pass.</li></ul><br>" +
+                        "<b>2. Pembuatan Berita Acara (PIR):</b><ul>" +
+                        "<li>Petugas mencatat detail kerusakan/kehilangan kedalam sistem dan menerbitkan dokumen PIR.</li>" +
+                        "<li>Pastikan nomor referensi PIR diberikan kepada penumpang untuk pelacakan lanjutan.</li></ul><br>" +
+                        "<b>3. Tindak Lanjut Bagasi Hilang (Tracing):</b><ul>" +
+                        "<li>Pencarian aktif menggunakan sistem WorldTracer dalam kurun waktu 14 x 24 jam.</li></ul>"
             }
         ];
+
 const circularDatabase = [
     { 
         title: "SE-01/2026: Standar Pelayanan Ground Handling", 
         date: "01 Agustus 2026", 
         desc: "Penyesuaian prosedur SOP", 
         link: "https://drive.google.com/drive/folders/1-YlewEQvT3BBQUhXrVx66fW_9vfVWJSg?hl=ID" 
-    }
-];
+    },
