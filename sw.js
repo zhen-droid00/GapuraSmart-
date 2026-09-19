@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'gapura-smart-';
-const CACHE_NAME = `${CACHE_PREFIX}v6`;
+const CACHE_NAME = `${CACHE_PREFIX}v7`;
 const APP_FILES = ['./', './index.html', './styles.css', './app.js', './sop-data.js', './manifest.json', './logo.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)));
